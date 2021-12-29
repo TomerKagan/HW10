@@ -45,7 +45,7 @@ def assignment9():
 @app.route('/logout')
 def logout_func():
     session['username'] = ''
-    return redirect(url_for('main_page'))
+    return redirect(url_for('assignment9'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
