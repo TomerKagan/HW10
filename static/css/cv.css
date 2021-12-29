@@ -71,3 +71,29 @@ nav {
     margin-left: 30px;
     margin-top: 30px;
   }
+
+  .search{
+      width: 40%;
+      padding: 65px;
+  }
+
+  .assigment-9{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+  }
+
+  .registration{
+      width: 60%;
+      padding-top:65px;
+  }
+
+  .header-with-session{
+      display: flex;
+      flex-direction: row;
+  }
+
+  .padding-header{
+      padding-left: 45px;
+      color: black;
+  }

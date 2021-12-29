@@ -1,13 +1,18 @@
 from flask import Flask, redirect, url_for, render_template
 from flask import request
+from flask import session
 
 app = Flask(__name__)
+
+app.secret_key = '5198'
 
 users = {'user1': {'name': 'Tomer', 'email': 'tomer66kagan@gmail.com'},
          'user2': {'name': 'Noam', 'email': 'noam98@gmail.com'},
          'user3': {'name': 'Nevo Yehonatan', 'email': 'nevo@gmail.com'},
          'user4': {'name': 'Roy', 'email': 'roy@gmail.com'},
          'user5': {'name': 'Sagi', 'email': 'sagi@gmail.com'}}
+
+personal_details = {'first_name': 'Tomer', 'last_name': "Kagan"}
 
 
 @app.route('/')
@@ -22,13 +27,36 @@ def assignment():
 
 @app.route('/assignment9', methods=['GET', 'POST'])
 def assignment9():
-    personal_details = {'first_name': 'Tomer', 'last_name': "Kagan"}
     if request.args and request.method == 'GET' and request.args['user_name']:
         if request.args['user_name'] != '' and request.args['user_name'] in users:
             user = users.get(request.args['user_name'])
             return render_template('assignment9.html', user=user, personalDetails=personal_details)
         return render_template('assignment9.html', personalDetails=personal_details, searched=True)
+    elif request.method == 'POST':
+        if 'log_out' in request.form:
+            session['username'] = ''
+        if 'username' in request.form and 'password' in request.form and 'name' in request.form and 'email' in request.form:
+            username = request.form['username']
+            session['username'] = username
+            return render_template('assignment9.html', username=username, personalDetails=personal_details)
     return render_template('assignment9.html', dic_users=users, personalDetails=personal_details)
+
+
+@app.route('/logout')
+def logout_func():
+    session['username'] = ''
+    return redirect(url_for('main_page'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_func():
+    if request.method == 'GET':
+        return render_template('login.html', personalDetails=personal_details)
+    elif request.method == 'POST':
+        if 'username' in request.form and 'password' in request.form:
+            username = request.form['username']
+            session['username'] = username
+    return redirect(url_for('main_page'))
 
 
 if __name__ == '__main__':
